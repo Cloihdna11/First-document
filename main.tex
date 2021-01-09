@@ -1,0 +1,60 @@
+\documentclass[12pt, letterpaper, twoside]{article}
+\usepackage[utf8]{inputenc}%codification of the document
+%\usepackage{times}
+\usepackage{amsmath}
+\usepackage{comment}
+
+\title{Working thesis}
+\author{Heather E. Dempsey \thanks{hedempsey.com}}
+\date{March 2021}
+
+%Here begins the body of the document
+\begin{document}
+
+\begin{titlepage}
+\maketitle
+\end{titlepage}
+
+\begin{abstract}
+Financial time series are inherently stochastic and thought to follow the same randomness as throwing fair dice. Finding foreseeable patterns in historical data is considered impossible in an efficient market. It is true that we cannot infer the distribution of unobservable data, but estimating from one datum only is possible. The Kalman filter (KF) in the first half of the expectation–maximization algorithm to iteratively improve the parameters of linear regression. Comprising the other half is maximum likelihood, which accepts the KF best estimates as complete or observable data and then maximizes the likelihood function. I propose two competing estimation methods that address time-varying parameters with Gaussian errors. First, I run a rolling ordinary least squares model regressing US stock returns on the change in the volatility index. Second, I use a state space model, the KF set up as vector autoregressive(1), to determine the method producing the least-biased parameters. The more efficient model is determined by the least mean squared error. I find … (statistical significance…)
+
+
+\end{abstract}
+
+\section{Introduction}
+This thesis examines the estimation methodology for linear regression in both theoretical and empirical applications. The Kalman filter (KF) and rolling ordinary least squares (ROLS) are assessed and compared in terms of their ability to produce unbiased estimators. The limitations of ordinary least squares (OLS) are well known. In fact, the intention was to make the model simple enough to apply to numerous applications; it is easier to study, understand, and use mathematics for quantifying effects. Simplification is achieved by defining several assumptions that must be met in order for the coefficients to have any meaning. When they are met, coefficients are said to be the best linear unbiased estimators (BLUE). Often outside of neat economic models, we find relations and patterns within a time series change. Parameters are rarely constant in financial data, and we must address this issue. Time-varying parameters (TVP) remain unaddressed by traditional OLS. The response was a tweaked version in which regressions are run over a small window of the observation set, and then another is run, with the window being rolled by one step and the last observation being dropped. ROLS relaxes the assumption of a stationary β vector. ROLS is one such method. The idea is to take a predetermined number of observations and declare your window size, regress on that window, and then slide the window of the set number one step ahead and drop the last observation. Specified to forecast daily returns on the S&P 500 with each window using the lagged change in the VIX ratio as the regressor. The ROLS equation specification is used only to test the parameter estimation and not in anticipation of finding explanatory power. The KF is a system of equations used to estimate unobservable data with increasing precision. The expectation–maximization (EM) algorithm uses the KF to estimate hidden parameters, and then passes these to the ML, the other part of the EM algorithm, which then maximizes the parameters over log-likelihood. ROLS, conversely, is only equipped to regress on data that can be observed. This is a limitation when we are forced to deal with hidden data. The problem for the EM is then the extraction of a signal, blindly, from a noisy system with incomplete data. The best estimates are passed to the ML, which interprets the estimates as if they were complete data. To maximize likelihood, the parameters are unbiased. This is exactly what the MLE and KF are designed to do (Sridharan, 2020). 
+
+	The economic significance… “These models can be used for robust modeling of phenomenas where the effect size of the predictor variables can vary during the period of the study” (Helske, 2020, p. x).
+
+
+… 
+\section{Literature review}
+Although a series of papers had been previously published by Hartley(1958), Carter and Myers (1973), Brown (1974), and Fienberg and Chen (1976) with specific applications, EM was first formally defined in 1977 by Dempster, Laird and Rubin in their seminal paper Maximum Likelihood from Incomplete Data via the EM Algorithm. Deriving theory which highlights the monotonic behavior of the likelihood using the estimates of unobservable data as proxy for complete data and then parameterized over log-likelihood. Their paper, in which they worked through many examples of EM concerned with hidden data problems, popularized the method after showing convergence of the estimators to their true values. 
+
+Shumway & Stoffer (1982) developed the EM further to estimate the parameters of an underlying state-space model (SSM) using missing observations. Here, the KF is employed to smooth the time series estimators and then maximize the likelihood they are indeed unbiased using the Maximum Likelihood (ML) and a simple recursive procedure. This thesis follows the model utilizing the expectation maximization to estimate the system parameters.
+
+Wu, Pai, and Hosking (1995) also estimated the parameters of time-series employing the EM cast into state-space form. Following Shumway and Stoffer (1982), this algorithm includes both KF and MLE methods of estimation. This model is shown to have numerous applications, not only to econometrics but also to any discipline dealing with unknown factors and incomplete information (Moon, 1996).
+
+This thesis combines SSM KF with VAR (1) linear observation equation setup to determine whether the OLS forecasting regression coefficients can be improved in the manner of a study published by Cochrane (2008). He sought to answer how predictive results from a linear regression set up as an autoregressive moving average (ARMA) could be interpreted. He demonstrates with a SSM specified as a vector autoregressive moving average (VARMA) how to approach parameter estimation. Cochrane finds that the SSM does not improve the forecasting of returns over a VAR method. 
+
+Kojima et al., 2010 wrote a study based on biology, which uses the state-space representation of VAR (1) where there are more than one time series regressed on lagged values of itself. The authors address the fact that non-equally spaced data observations and their system noises as being inseparable severely limiting in working with both the VAR and SSMs. Authors merge the two models to overcome these limitations and create a new model the—VAR-SSM—to estimate dynamic gene networks. The model uses the transition and observation equations that ultimately motivate the SSM general representation in this thesis. Kojima et al. (2010) derive an algorithm for estimating the parameters of VAR-SSM and the EM finding that the VAR-SSM performs better than the AR and SSM taken separately in contrast to Cochrane’s 2008 study.
+
+Nakjima (2011) outlined estimation procedures that model existing changes in the underlying structure of the economy. His approach was a Markov Chain Monte Carlo simulation exercise using a multivariate AR model with stochastic volatility. Nakjima engages the KF to estimate the hidden vector of parameters. He found that in the presence of missing data, the SSM infers the initial vector of parameters more efficiently and will updates them with increasing precision iteratively. I assume differently in the current thesis. Errors are normally distributed and homoscedastic with a zero mean. Similar to the research by Nakjima (2011) the present study utilizes methods such as Bayesian analysis in updating, Markov Chain Monte Carlo (MCMC) to simulate conditions from which to test my models’ performance and the KF to estimate unobservable data. 
+
+In 2012, Doh and Connolly successfully estimated time-varying parameters (TVP) in the presence of stochastic volatility using both VAR and KF limited to estimating unobservable data. Bayesian methods of updating were used on the parameters of three macroeconomic variables during the recession of 2007—2009. They found the recession was accelerated by the shock to the unemployment rate that disrupted trend and volatility. These authors disagreed with Cochrane (2008), observing that the KF is necessary for the estimation of unobserved data in a VAR model where coefficients can vary.
+
+\section{Theoretical background}
+
+
+
+
+
+\begin{comment}
+This text won't show up in the compiled pdf
+this is just a multi-line comment. Useful
+to, for instance, comment out slow-rendering
+while working on the draft.
+\end{comment}
+
+\end{document}
+
